@@ -10,8 +10,12 @@ module Webrat #:nodoc:
       super(absolute_url(url), http_method, data)
     end
 
-    def get(url, data, headers_argument_not_used = nil)
-      @response = mechanize.get(url, data)
+    def get(url, data, headers = nil)
+      if headers
+        @response = mechanize.get({:url => url, :headers => headers, :params => data})
+      else
+        @response = mechanize.get(url, data)
+      end
     end
 
     def post(url, data, headers_argument_not_used = nil)
